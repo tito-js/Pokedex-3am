@@ -76,3 +76,6 @@ function setupPokemonAbout(pokemon, id, species) {
 };
 
 /** configura as estatísticas do pokémon */
+function setupPokemonStats(pokemon) {
+    
+}
