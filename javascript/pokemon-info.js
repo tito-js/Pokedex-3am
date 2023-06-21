@@ -77,5 +77,24 @@ function setupPokemonAbout(pokemon, id, species) {
 
 /** configura as estatísticas do pokémon */
 function setupPokemonStats(pokemon) {
-    
-}
+    document.getElementById('current-pokemon-stats-atk').innerHTML = pokemon.stats[0].base_stat;
+    document.getElementById('current-pokemon-stats-hp').innerHTML = pokemon.stats[1].base_stat;
+    document.getElementById('current-pokemon-stats-def').innerHTML = pokemon.stats[2].base_stat;
+    document.getElementById('current-pokemon-stats-spa').innerHTML = pokemon.stats[3].base_stat;
+    document.getElementById('current-pokemon-stats-spd').innerHTML = pokemon.stats[4].base_stat;
+    document.getElementById('current-pokemon-stats-speed').innerHTML = pokemon.stats[5].base_stat;
+    document.getElementById('current-pokemon-stats-total').innerHTML = pokemon.stats[0].base_stat + pokemon.stats[1].base_stat + pokemon.stats[2].base_stat + pokemon.stats[3].base_stat + pokemon.stats[4].base_stat + pokemon.stats[5].base_stat;
+};
+
+/** configura as habilidades do pokémon */
+function setupPokemonAbilities(pokemon) {
+    document.getElementById('current-pokemon-abilitiy-0').innerHTML = dressUpPayloadValue(pokemon.abilities[0].ability.name);
+    if(pokemon.abilities[1]){
+        document.getElementById('current-pokemon-abilitiy-1').classList.remove('hide');
+        document.getElementById('current-pokemon-abilitiy-1').innerHTML = dressUpPayloadValue(pokemon.abilities[1].ability.name);
+    }else {
+        document.getElementById('current-pokemon-abilitiy-1').classList.add('hide');
+    };
+};
+
+/** configura a cadeia de evolução (todas as 3 evoluções) */
