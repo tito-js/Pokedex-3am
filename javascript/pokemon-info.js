@@ -98,3 +98,111 @@ function setupPokemonAbilities(pokemon) {
 };
 
 /** configura a cadeia de evolução (todas as 3 evoluções) */
+function setupEvolutionChain(evolutionChain) {
+    const chain = evolutionChain.chain
+    const chainContainer = document.getElementById('current-pokemon-evolution-chain-container')
+    const chainImages = [document.getElementById('current-pokemon-evolution-0'), document.getElementById('current-pokemon-evolution-1'), document.getElementById('current-pokemon-evolution-2')]
+    const chainLevels = [document.getElementById('current-pokemon-evolution-level-0'), document.getElementById('current-pokemon-evolution-level-1')]
+
+    if(chain.evolves_to.length != 0) {
+        chainContainer.classList.remove('hide');
+
+        setupEvolution(chain, 0);
+
+        if(chain.evolves_to[0].evolver_to.length != 0) {
+            setupEvolution(chain.evolver_to[0], 1);
+
+            chainImages[2].classList.remove('hide');
+            chainImages[1].classList.remove('hide');
+        }else {
+            chainImages[2].classList.add('hide');
+            chainImages[1].classList.add('hide');
+        };
+    }else {
+        chainContainer.classList.add('hide');
+    };
+};
+
+/** configura imagens de evolução e nível */
+function setupEvolution(chain, no) {
+    const chainImages = [document.getElementById('current-pokemon-evolution-0'), document.getElementById('current-pokemon-evolution-1'), document.getElementById('current-pokemon-evolution-2')];
+    const chainLevels = [document.getElementById('current-pokemon-evolution-level-0'), document.getElementById('current-pokemon-evolution-level-1')];
+    
+    chainImages[no].src= 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + filterIdFromSpeciesURL(chain.species.url) + '.png';
+    chainImages[no].setAttribute('onClick', 'javascript: ' + 'openInfo(' + filterIdFromSpeciesURL(chain.species.url) + ')');
+    chainImages[no + 1].src= 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + filterIdFromSpeciesURL(chain.evolves_to[0].species.url) + '.png';
+    chainImages[no + 1].setAttribute('onClick', 'javascript: ' + 'openInfo(' + filterIdFromSpeciesURL(chain.evolves_to[0].species.url) + ')');
+
+    if(chain.evolves_to[0].evolution_details[0].min_level) {
+        chainLevels[no].innerHTML = 'Lv. ' + chain.evolves_to[0].evolution_details[0].min_level;
+    } else {
+        chainLevels[no].innerHTML = '?';
+    };
+};
+
+/** id do filtro da URL da espécie */
+function filterIdFromSpeciesURL(url){
+    return url.replace('https://pokeapi.co/api/v2/pokemon-species/', '').replace('/','');
+}
+
+
+
+/**------------------------- Responsivo --------------------- ------------------------------------------- */
+function setupResponsiveBackground(pokemon) {
+    document.getElementById('current-pokemon-reponsive-backgroud').style.background= typeColors[pokemon.types[0].type.name];
+};
+
+function openPokemonResponsiveInfo(){
+    document.getElementById('current-pokemon-container').classList.remove('hide');
+    document.getElementById('current-pokemon-container').style.display = 'flex';
+    document.getElementById('current-pokemon-responsive-close').classList.remove('hide');
+
+    document.getElementById('current-pokemon-responsive-background').classList.remove('hide');
+
+    document.getElementById('current-pokemon-responsive-background').style.opacity = 0;
+    setTimeout(function(){
+        document.getElementById('current-pokemon-responsive-background').style.opacity = 1;
+    }, 20);
+
+    document.getElementsByTagName('html'[0].style.overflow = 'hidden');
+};
+
+function closePokemonInfo(){
+    setTimeout(function(){
+        document.getElementById('current-pokemon-container').classList.add('hide');
+        document.getElementById('current-pokemon-responsive-close').classList.add('hide');
+
+        document.getElementById('current-pokemon-responsive-background').classList.add('hide');
+    },350);
+
+    document.getElementById('current-pokemon-responsive-background').style.opacity = 1;
+    setTimeout(function(){
+        document.getElementById('current-pokemon-responsive-background').style.opacity = 0;
+    },10);
+
+    document.getElementsByTagName('hotml')[0].style.overflow = 'unset';
+
+    slideOutPokemonInfo();
+};
+
+/** tornar o recipiente do pokémon atual visível após redimensionar para < 1100px de largura && mostrar a barra de rolagem*/
+window.addEventListener('resize', function(){
+    if(document.getElementById('current-pokemon-container').classList.contains('slide-out')){
+        document.getElementById('current-pokemon-container').classList.replace('slide-out', 'slide-in');
+    };
+    
+    if(window.innerWidth > 1100) {
+        document.getElementsByTagName('html')[0].style.overflow = 'unset';
+    };
+});
+
+/**------------------------- Animações --------------------- ------------------------------------------- */
+function slideOutPokemonInfo(){
+    document.getElementById('current-pokemon-container').classList.remove('slide-in');
+    document.getElementById('current-pokemon-container').classList.add('slide-out');
+};
+
+function slideInPokemonInfo(){
+    document.getElementById('current-pokemon-container').classList.add('slide-in');
+    document.getElementById('current-pokemon-container').classList.remove('slide-out');
+};
