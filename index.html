@@ -3,14 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokedex</title>
+    <title>Pokedex | 3am</title>
     <script src="./javascript/setup.js"></script>
     <script src="./javascript/pokemon-list.js"></script>
     <script src="./javascript/pokemon-info.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
-<body>
+<body onload="getAllnames()" class="row">
+    <!--Setup Loading Div-->
+    <div id="loading-div">
+        <img src="src/pokeball-icon.png" class="loading-ball">
+    </div>
+
+    <!--Barra de pesquisa e renderizar pesquisa de pokémon-->
+    <div id="pokedex-list" class="column">
+
+
+        <!--Barra de pesquisa-->
+        <div id="search-bar-container" class="row container margin-40">
+            <input id="search-input" onkeydown="search()" placeholder="Pesquise seu Pokemon">
+            <div id="start-search-button" class="center">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <div id="pokedex-list-render-container">
+             <!--Render here-->
+        </div>
+    </div>
+
+    <!--pokémon atual responsivo-->
+    <div id="current-pokemon-responsive-background" class="hide"></div>
+    <div id="current-pokemon-responsive-close" class="hide" onclick="closePokemonInfo()"><img src="src/close-icon.png"></div>
+
+    <!--pokémon selecionado atualmente-->
     
 </body>
 </html>
